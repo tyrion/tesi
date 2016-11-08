@@ -1,0 +1,240 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass tufte-handout
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Meeting Tesi
+\end_layout
+
+\begin_layout Author
+Germano Gabbianelli
+\end_layout
+
+\begin_layout Date
+07/11/2016
+\end_layout
+
+\begin_layout Part
+Problema
+\end_layout
+
+\begin_layout Standard
+batch learning.
+ LQG
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+S_{t+1} & = & S_{t}+a_{t}+\epsilon\\
+R_{t} & = & -0.5\cdot\left(S_{t}^{2}+a_{t}^{2}\right)\\
+\epsilon & \sim & \mathcal{N}(0,0.1)\\
+\pi_{*}(S_{t}) & = & -0.608\cdot S_{t}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Fitted Q iteration
+\end_layout
+
+\begin_layout Standard
+Vogliamo valutare le differenze di performance tra Fitted Q iteration e
+ il nostro algoritmo.
+\end_layout
+
+\begin_layout Standard
+Lo svantaggio principale di Fitted Q iteration è la necessità di svolgere
+ un passo di training ad ogni iterazione dell'algoritmo.
+\end_layout
+
+\begin_layout Part
+Nuovo approccio
+\end_layout
+
+\begin_layout Standard
+Fissiamo uno spazio funzionale per la nostra 
+\begin_inset Formula $Q$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+Q_{\theta}(s,a) & = & (a-ks)^{2}+b\\
+\theta & = & [k,b]
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Vogliamo ora ottenere una black box 
+\begin_inset Formula $f_{\rho}$
+\end_inset
+
+ che dato in ingresso 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+ produca in output 
+\begin_inset Formula $\theta_{i+1}$
+\end_inset
+
+ tale che
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Q_{\theta_{i+1}}(s,a)\approx r(s,a)+\gamma\max_{a}Q_{\theta_{i}}(s,a)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Metodi per stimare 
+\begin_inset Formula $\rho$
+\end_inset
+
+
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+pyBrain sembra avere le implementazioni per questi e altri metodi black
+ box già incluse.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Natural Evolutional Strategy (NES)
+\end_layout
+
+\begin_layout Itemize
+Policy Gradients with Parameter Exploration (PGPE)
+\end_layout
+
+\begin_layout Section
+Metrica di valutazione
+\end_layout
+
+\begin_layout Standard
+Usiamo Bellman residual come metrica di valutazione
+\begin_inset Marginal
+status open
+
+\begin_layout Plain Layout
+Nel paper sul Fitted Q iteration, testano le performance su un set di stati
+ iniziali 
+\begin_inset Formula $S^{i}$
+\end_inset
+
+, per tutte le azioni in 
+\begin_inset Formula $U$
+\end_inset
+
+ e ne calcolano la media.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+e=\left[Q_{\theta_{i+1}}(s,a)-\left(r(s,a)+\gamma\max_{a}Q_{\theta_{i}}(s,a)\right)\right]^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
